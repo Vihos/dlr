@@ -1,18 +1,23 @@
 package com.vihos.dlr;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 public class Utils {
 
-	public static String processString(Context context, CharSequence text) {
-		return processString(context, text.toString());
+	public static String processString(@NonNull Context context, @Nullable CharSequence text) {
+		return processString(context, text == null ? "" : text.toString());
 	}
 
-	public static String processString(Context context, String text) {
+	public static String processString(@NonNull Context context, @Nullable String text) {
+		if (text == null)
+			return null;
+
 		if (text.startsWith("#")) {
 			int slashIndex = text.indexOf("/");
 
-			if (slashIndex == -1 || slashIndex == 1 || slashIndex == text.length() -1)
+			if (slashIndex == -1 || slashIndex == 1 || slashIndex == text.length() - 1)
 				return text;
 
 			String type = text.substring(1, slashIndex);
@@ -25,6 +30,10 @@ public class Utils {
 		}
 
 		return text;
+	}
+
+	public static boolean isLocalizable(@Nullable CharSequence charSequence) {
+		return isLocalizable(charSequence == null ? "" : charSequence.toString());
 	}
 
 	public static boolean isLocalizable(String string) {

@@ -70,6 +70,7 @@ public abstract class LocaleAppCompatActivity extends AppCompatActivity {
 
 				// Initialize text processing event
 				textView.setText(textView.getText());
+				textView.setHint(textView.getHint());
 			}
 		});
 

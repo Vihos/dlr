@@ -2,6 +2,7 @@ package com.vihos.dlr.holder;
 
 import android.view.View;
 import android.widget.TextView;
+import com.vihos.dlr.Localizable;
 import com.vihos.dlr.Utils;
 import com.vihos.dlr.model.ViewMeta;
 import java.util.HashMap;
@@ -27,6 +28,9 @@ public class ViewsController {
 		for (Map.Entry<View, ViewMeta> entry : trackedViews.entrySet()) {
 			View view = entry.getKey();
 			ViewMeta meta = entry.getValue();
+
+			if (view instanceof Localizable)
+				((Localizable) view).updateLocales();
 
 			if (view instanceof TextView) {
 				TextView textView = (TextView) view;

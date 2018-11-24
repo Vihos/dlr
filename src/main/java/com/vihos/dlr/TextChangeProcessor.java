@@ -15,8 +15,6 @@ public class TextChangeProcessor implements TextWatcher {
 	@NonNull
 	private final ViewMeta viewMeta;
 
-	private String prevText = "";
-
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 		
@@ -29,20 +27,16 @@ public class TextChangeProcessor implements TextWatcher {
 
 	@Override
 	public void afterTextChanged(Editable s) {
-		long current = System.nanoTime();
+		String string = s.toString().trim();
 
-		String newText = s.toString();
+		if (Utils.isLocalizable(string)) {
+			String processedString = Utils.processString(textView.getContext(), string);
 
-		if (prevText.equals(newText))
-			return;
+			if (processedString.equals(string))
+				return;
 
-		prevText = newText;
-		viewMeta.setOriginalText(newText);
-
-		String processedString = Utils.processString(textView.getContext(), newText);
-		textView.setText(processedString);
-
-		long result = System.nanoTime() - current;
-		System.out.println(result / 1000 + "ms " + result + "ns");
+			viewMeta.setOriginalText(string);
+			s.replace(0, s.length(), processedString);
+		}
 	}
 }

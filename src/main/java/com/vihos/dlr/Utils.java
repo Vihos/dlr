@@ -12,7 +12,7 @@ public class Utils {
 		if (text.startsWith("#")) {
 			int slashIndex = text.indexOf("/");
 
-			if (slashIndex == -1)
+			if (slashIndex == -1 || slashIndex == 1 || slashIndex == text.length() -1)
 				return text;
 
 			String type = text.substring(1, slashIndex);
@@ -20,11 +20,18 @@ public class Utils {
 
 			int id = context.getResources().getIdentifier(resourceName, type, context.getPackageName());
 
-			if (id != 0) {
+			if (id != 0)
 				return context.getResources().getString(id);
-			}
 		}
 
 		return text;
+	}
+
+	public static boolean isLocalizable(String string) {
+		if (!string.startsWith("#"))
+			return false;
+
+		int slashIndex = string.indexOf("/");
+		return slashIndex != -1 && slashIndex != 1 && slashIndex != string.length() - 1;
 	}
 }
